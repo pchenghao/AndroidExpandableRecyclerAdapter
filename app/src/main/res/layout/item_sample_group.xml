@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:background="@color/bg_content">
+
+    <ImageView
+        android:id="@+id/tmp_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:contentDescription="@null"
+        android:src="@drawable/icon_store" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="14dp"
+        android:layout_toEndOf="@id/tmp_1"
+        android:layout_toLeftOf="@id/tmp_2"
+        android:layout_toRightOf="@id/tmp_1"
+        android:layout_toStartOf="@id/tmp_2"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:paddingBottom="3dp"
+        android:paddingTop="3dp"
+        android:textColor="@color/item_title"
+        android:textSize="14sp"
+        tools:text="MT7 123121213213213213213213213213213213212132" />
+
+    <TextView
+        android:id="@+id/tv_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tv_title"
+        android:layout_alignStart="@id/tv_title"
+        android:layout_below="@id/tv_title"
+        android:layout_marginBottom="14dp"
+        android:layout_marginTop="6dp"
+        android:textColor="@color/item_desc"
+        android:textSize="12sp"
+        tools:ignore="SmallSp"
+        tools:text="描述信息" />
+
+    <LinearLayout
+        android:id="@+id/tmp_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="13dp"
+        android:layout_marginRight="13dp"
+        android:orientation="horizontal">
+
+        <Switch
+            android:id="@+id/sw_exist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:padding="10dp" />
+
+    </LinearLayout>
+
+</RelativeLayout>
