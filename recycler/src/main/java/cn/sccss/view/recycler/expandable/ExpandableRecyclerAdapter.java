@@ -8,40 +8,74 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public abstract class ExpandableRecyclerAdapter<T extends RecyclerView.ViewHolder, K extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    /** 视图类型：组 */
+    /**
+     * 视图类型：组
+     */
     private static final int TYPE_GROUP = 1;
-    /** 视图类型：子 */
+    /**
+     * 视图类型：子
+     */
     private static final int TYPE_CHILD = 2;
-    /** 组的展示状态集合 */
+    /**
+     * 组的展示状态集合
+     */
     private SparseBooleanArray groupStateArray;
 
     public ExpandableRecyclerAdapter() {
         groupStateArray = new SparseBooleanArray();
     }
 
-    /** 创建组视图ViewHolder */
+    /**
+     * 创建组视图ViewHolder
+     * @param parent 同{@link #onCreateViewHolder(ViewGroup, int)} 中的ViewGroup
+     * @return 组视图ViewHolder
+     */
     public abstract T onCreateGroupViewHolder(ViewGroup parent);
 
-    /** 创建子视图ViewHolder */
+    /**
+     * 创建子视图ViewHolder
+     * @param parent 同{@link #onCreateViewHolder(ViewGroup, int)} 中的ViewGroup
+     * @return 子视图ViewHolder
+     */
     public abstract K onCreateChildViewHolder(ViewGroup parent);
 
-    /** 获取组的实体 */
+    /**
+     * 获取组的实体
+     * @param groupPosition 组列表下标
+     * @return 组列表项位置对应的数据实体
+     */
     public abstract Object getGroup(int groupPosition);
 
-    /** 获取子的实体 */
+    /**
+     * 获取子的实体
+     * @param groupPosition 组列表下标
+     * @param itemPosition 子列表下标
+     * @return 组列表项下的子列表项位置对应的数据实体
+     */
     public abstract Object getChild(int groupPosition, int itemPosition);
 
-    /** 获取组的数量 */
+    /**
+     * 获取组的数量
+     * @return 组列表项总数量
+     */
     public abstract int getGroupCount();
 
-    /** 获取指定组中的子视图数量 */
+    /**
+     * 获取指定组中的子视图数量
+     * @param groupPosition 组视图下标
+     * @return 指定组列表下的子列表数量
+     */
     public abstract int getChildCount(int groupPosition);
 
-    /** 绑定数据到组视图 */
+    /**
+     * 绑定数据到组视图
+     */
     public abstract void onBindGroupViewHolder(T holder, int groupPosition);
 
-    /** 绑定数据到子视图 */
-    public abstract void onBindChildViewHolder(K holder, int groupPosition, int itemPosition);
+    /**
+     * 绑定数据到子视图
+     */
+    public abstract void onBindChildViewHolder(K holder, int groupPosition, int childPosition);
 
     /**
      * 设置组的折叠展开状态
@@ -61,6 +95,7 @@ public abstract class ExpandableRecyclerAdapter<T extends RecyclerView.ViewHolde
 
     /**
      * 仅设置折叠状态，但不立即刷新页面显示
+     *
      * @param groupPosition 组下标
      * @param isExpend      是否展示
      */
@@ -96,6 +131,7 @@ public abstract class ExpandableRecyclerAdapter<T extends RecyclerView.ViewHolde
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public final void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         int itemViewType = getItemViewType(position);
         if (itemViewType == TYPE_GROUP) {
@@ -118,7 +154,8 @@ public abstract class ExpandableRecyclerAdapter<T extends RecyclerView.ViewHolde
 
     /**
      * 获取条目所有组的下标
-     * @param position      在整个RecyclerView中的下标
+     *
+     * @param position 在整个RecyclerView中的下标
      */
     private int getItemGroupPosition(int position) {
         if (position <= 0) return 0;
@@ -138,7 +175,8 @@ public abstract class ExpandableRecyclerAdapter<T extends RecyclerView.ViewHolde
 
     /**
      * 获取RecyclerView的下标对应的组下标
-     * @param position      在整个RecyclerView中的下标
+     *
+     * @param position 在整个RecyclerView中的下标
      */
     private int getGroupPosition(int position) {
         if (position <= 0) return 0;
@@ -155,7 +193,8 @@ public abstract class ExpandableRecyclerAdapter<T extends RecyclerView.ViewHolde
 
     /**
      * 获取RecyclerView的下标对应的条目的下标
-     * @param position      在整个RecyclerView中的下标
+     *
+     * @param position 在整个RecyclerView中的下标
      */
     private int getItemPosition(int position) {
         if (position <= 0) return -1;
@@ -176,7 +215,7 @@ public abstract class ExpandableRecyclerAdapter<T extends RecyclerView.ViewHolde
         int groupCount = getGroupCount();
         for (int i = 0; i < groupCount; i++) {
             if (position == 0) return TYPE_GROUP;
-            position --;
+            position--;
             if (getExpendState(i)) {
                 int childCount = getChildCount(i);
                 if (position < childCount) return TYPE_CHILD;
@@ -186,11 +225,22 @@ public abstract class ExpandableRecyclerAdapter<T extends RecyclerView.ViewHolde
         throw new IllegalArgumentException("计算ItemViewType出错了，所在下标：" + position);
     }
 
-    /** 视图点击事件 */
+    /**
+     * 视图点击事件
+     */
     public interface OnListItemClickListener {
-        /** 父视图点击事件 */
+        /**
+         * 父视图点击事件
+         * @param groupPosition 当前组所在下标
+         */
         void onGroupItemClickListener(int groupPosition);
-        /** 子视图点击事件 */
+
+        /**
+         * 子视图点击事件
+         * @param v 当前点击的{@link android.view.View}对象
+         * @param groupPosition 当前子视图所有组列表的下标
+         * @param childPosition 当前子视图所有子列表的下标
+         */
         void onChildItemClickListener(View v, int groupPosition, int childPosition);
     }
 }
